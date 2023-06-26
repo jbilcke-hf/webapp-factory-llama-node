@@ -116,12 +116,12 @@ function app() {
         const elapsed = (lastTokenAt - this.lastTokenAt) / 1000
         this.lastTokenAt = lastTokenAt
         if (elapsed > this.timeoutInSec) {
-          console.log(`Something went wrong, it too more than ${timeoutInSec} seconds to generate a token.`)
+          console.log(`Something went wrong, it too more than ${this.timeoutInSec} seconds to generate a token.`)
           this.state = 'stopped'
           return
         }
         if (html.endsWith('</html>')) {
-          console.log('We reached the natural end of the stream, it seems.')
+          // console.log('We reached the natural end of the stream, it seems.')
           // this.state === 'stopped'
           return
         }

@@ -19,7 +19,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 RUN apt --yes install nodejs
 
 RUN corepack enable
-RUN corepack prepare pnpm --activate
+RUN corepack prepare pnpm@6.0.0 --activate
 
 RUN apt --yes install git git-lfs libsndfile1-dev tesseract-ocr espeak-ng python3 python3-pip ffmpeg
 
