@@ -53,13 +53,15 @@ WORKDIR $HOME/app/llama-node
 
 RUN git submodule update --init --recursive
 
-RUN pnpm install --ignore-scripts
+# RUN pnpm install --ignore-scripts
 
 WORKDIR $HOME/app/llama-node/packages/llama-cpp
 
 RUN pnpm build:cuda
 
 ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:$HOME/.llama-node
+
+WORKDIR $HOME/app
 
 # ok.. should be good?
 
