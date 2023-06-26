@@ -12,11 +12,18 @@ SHELL ["sh", "-lc"]
 
 RUN apt update
 
+RUN apt --yes install build-essential
+
 RUN apt --yes install curl
 
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 
 RUN apt --yes install nodejs
+
+# we need Rust
+RUN curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly -y
+
+# configure PNPM
 
 RUN corepack enable
 RUN corepack prepare pnpm@6.0.0 --activate
@@ -38,18 +45,6 @@ WORKDIR $HOME/app
 COPY --chown=user package*.json .
 
 RUN pnpm install
-
-
-# OK, now the hell begins.. we need to build llama-node with CUDA support
-
-# we need Rust
-RUN curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly -y
-
-# we need PNP
-# RUN curl -fsSL https://get.pnpm.io/install.sh | bash -
-
-# we also need this (not sure we need musl-tools as it is for cross-compilation)
-RUN apt --yes install build-essential musl-tools
 
 # ok! let's try to compile llama-node
 RUN git clone https://github.com/Atome-FE/llama-node.git
