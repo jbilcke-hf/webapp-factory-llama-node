@@ -41,10 +41,19 @@ RUN npm install
 
 
 # we need Rust
-RUN RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
+RUN curl https://sh.rustup.rs -sSf > rustup.sh
+RUN chmod +x ./rustup.sh
+RUN sh ./install.sh -y
+
+# SHELL ["/bin/bash", "-c"]
+
+ENV PNPM_HOME="/root/.local/share/pnpm"
+ENV PATH="${PATH}:${PNPM_HOME}"
+
+RUN npm install --global pnpm
 
 # we need PNP
-RUN curl -fsSL https://get.pnpm.io/install.sh | sh -
+# RUN curl -fsSL https://get.pnpm.io/install.sh | bash -
 
 # we also need this (not sure we need musl-tools as it is for cross-compilation)
 RUN apt --yes install build-essential musl-tools
