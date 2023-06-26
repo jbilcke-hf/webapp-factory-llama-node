@@ -26,7 +26,7 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly -y
 # configure PNPM
 
 RUN corepack enable
-RUN corepack prepare pnpm@6.0.0 --activate
+RUN corepack prepare pnpm@8.6.5 --activate
 
 RUN apt --yes install git git-lfs libsndfile1-dev tesseract-ocr espeak-ng python3 python3-pip ffmpeg
 
