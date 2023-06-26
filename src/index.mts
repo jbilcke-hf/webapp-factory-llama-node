@@ -37,7 +37,7 @@ const app = express()
 const port = 7860
 
 const minPromptSize = 16 // if you change this, you will need to also change in public/index.html
-const timeoutInSec = 5 * 60
+const timeoutInSec = 15 * 60
 
 app.use(express.static("public"))
  
@@ -93,7 +93,7 @@ app.get("/app", async (req, res) => {
   
   // naive implementation: we say we are out of capacity
   if (pending.queue.length >= maxParallelRequests) {
-    res.write('Sorry, max nb of parallel requests reached. A new slot should be available in < 5 min.')
+    res.write('Sorry, max nb of parallel requests reached. A new slot should be available in < 15 min.')
     res.end()
     return
   }
@@ -139,7 +139,7 @@ ${prefix}`
 
   const options = {
     prompt: finalPrompt,
-    nThreads: 4,
+    nThreads: 6, // try to use the most of our vCPUs
     nTokPredict: 1024,
     topK: 40,
     topP: 0.1,
