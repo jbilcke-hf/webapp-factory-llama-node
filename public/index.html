@@ -49,7 +49,7 @@
         <iframe
           id="iframe"
           class="border-none w-full h-screen"
-          :src="(state === 'stopped' || draft.length < minPromptSize)
+          :src="(draft.length < minPromptSize)
             ? '/placeholder.html'
             : `/app?prompt=${draft}`
           "></iframe>
