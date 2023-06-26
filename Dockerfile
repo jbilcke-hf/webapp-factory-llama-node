@@ -48,10 +48,12 @@ RUN pnpm --version
 
 RUN pnpm install
 
+WORKDIR /tmp
+
 # ok! let's try to compile llama-node
 RUN git clone https://github.com/Atome-FE/llama-node.git
 
-WORKDIR $HOME/app/llama-node
+WORKDIR /tmp/llama-node
 
 RUN git submodule update --init --recursive
 
@@ -62,7 +64,7 @@ RUN pnpm build:llama-cpp
 
 RUN pnpm:build
 
-WORKDIR $HOME/app/llama-node/packages/llama-cpp
+WORKDIR /tmp/llama-node/packages/llama-cpp
 
 RUN pnpm build:cuda
 

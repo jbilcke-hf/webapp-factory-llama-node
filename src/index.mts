@@ -93,7 +93,7 @@ app.get("/app", async (req, res) => {
   
   // naive implementation: we say we are out of capacity
   if (pending.queue.length >= maxParallelRequests) {
-    res.write('sorry, max nb of parallel request reached')
+    res.write('Sorry, max nb of parallel requests reached. A new slot should be available in < 5 min.')
     res.end()
     return
   }
