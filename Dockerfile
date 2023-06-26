@@ -1,29 +1,75 @@
-FROM node:18
+FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu20.04
+LABEL maintainer="Hugging Face"
 
-# Set up a new user named "user" with user ID 1000
-RUN useradd -o -u 1000 user
+ENV PYTHONUNBUFFERED 1
 
-# Switch to the "user" user
+EXPOSE 7860
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+# Use login shell to read variables from `~/.profile` (to pass dynamic created variables between RUN commands)
+SHELL ["sh", "-lc"]
+
+RUN apt update
+
+RUN apt --yes install curl
+
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+
+RUN apt --yes install nodejs
+
+RUN apt --yes install git git-lfs libsndfile1-dev tesseract-ocr espeak-ng python3 python3-pip ffmpeg
+
+RUN git lfs install
+
+RUN python3 -m pip install --no-cache-dir --upgrade pip
+
+RUN useradd -m -u 1000 user
 USER user
-
-# Set home to the user's home directory
 ENV HOME=/home/user \
 	PATH=/home/user/.local/bin:$PATH
 
-# Set the working directory to the user's home directory
 WORKDIR $HOME/app
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
-COPY --chown=user package*.json $HOME/app
+# prepare to install the Node app
+COPY --chown=user package*.json .
 
 RUN npm install
 
-# Copy the current directory contents into the container at $HOME/app setting the owner to the user
-COPY --chown=user . $HOME/app
+
+# OK, now the hell begins.. we need to build llama-node with CUDA support
+
+
+# we need Rust
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+# we need PNP
+RUN curl -fsSL https://get.pnpm.io/install.sh | sh -
+
+# we also need this (not sure we need musl-tools as it is for cross-compilation)
+RUN apt --yes install build-essential musl-tools
+
+# ok! let's try to compile llama-node
+RUN git clone https://github.com/Atome-FE/llama-node.git
+
+WORKDIR $HOME/app/llama-node
+
+RUN git submodule update --init --recursive
+
+RUN pnpm install --ignore-scripts
+
+WORKDIR $HOME/app/llama-node/packages/llama-cpp
+
+RUN pnpm build:cuda
+
+ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:$HOME/.llama-node
+
+# ok.. should be good?
+
+COPY --chown=user . .
 
 ADD --chown=user https://huggingface.co/TheBloke/airoboros-13b-gpt4-GGML/resolve/main/airoboros-13b-gpt4.ggmlv3.q4_0.bin models/airoboros-13b-gpt4.ggmlv3.q4_0.bin
 
-EXPOSE 7860
+RUN python3 test.py
+
 CMD [ "npm", "run", "start" ]
