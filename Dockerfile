@@ -44,6 +44,8 @@ WORKDIR $HOME/app
 # prepare to install the Node app
 COPY --chown=user package*.json .
 
+RUN pnpm --version
+
 RUN pnpm install
 
 # ok! let's try to compile llama-node
@@ -53,7 +55,7 @@ WORKDIR $HOME/app/llama-node
 
 RUN git submodule update --init --recursive
 
-# RUN pnpm install --ignore-scripts
+RUN pnpm install --ignore-scripts
 
 WORKDIR $HOME/app/llama-node/packages/llama-cpp
 
