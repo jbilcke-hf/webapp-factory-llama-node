@@ -18,6 +18,9 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 
 RUN apt --yes install nodejs
 
+RUN corepack enable
+RUN corepack prepare pnpm --activate
+
 RUN apt --yes install git git-lfs libsndfile1-dev tesseract-ocr espeak-ng python3 python3-pip ffmpeg
 
 RUN git lfs install
@@ -34,17 +37,13 @@ WORKDIR $HOME/app
 # prepare to install the Node app
 COPY --chown=user package*.json .
 
-RUN npm install
+RUN pnpm install
 
 
 # OK, now the hell begins.. we need to build llama-node with CUDA support
 
-
 # we need Rust
 RUN curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly -y
-
-# need PNPM
-RUN npm install -g pnpm
 
 # we need PNP
 # RUN curl -fsSL https://get.pnpm.io/install.sh | bash -
@@ -75,4 +74,4 @@ ADD --chown=user https://huggingface.co/TheBloke/airoboros-13b-gpt4-GGML/resolve
 
 RUN python3 test.py
 
-CMD [ "npm", "run", "start" ]
+CMD [ "pnpm", "run", "start" ]
