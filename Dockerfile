@@ -57,6 +57,11 @@ RUN git submodule update --init --recursive
 
 RUN pnpm install --ignore-scripts
 
+# let's try to build backends, to see
+RUN pnpm build:llama-cpp
+
+RUN pnpm:build
+
 WORKDIR $HOME/app/llama-node/packages/llama-cpp
 
 RUN pnpm build:cuda
