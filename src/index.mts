@@ -37,7 +37,7 @@ const app = express()
 const port = 7860
 
 const minPromptSize = 16 // if you change this, you will need to also change in public/index.html
-const timeoutInSec = 60 * 60
+const timeoutInSec = 5 * 60
 
 app.use(express.static("public"))
  
