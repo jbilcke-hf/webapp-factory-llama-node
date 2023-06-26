@@ -41,9 +41,7 @@ RUN npm install
 
 
 # we need Rust
-RUN curl https://sh.rustup.rs -sSf > rustup.sh
-RUN chmod +x ./rustup.sh
-RUN sh ./install.sh -y
+RUN curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly -y
 
 # SHELL ["/bin/bash", "-c"]
 
