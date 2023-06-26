@@ -130,10 +130,10 @@ ${daisy}
 - Use a color scheme consistent with the brief and theme
 - You need to use Tailwind CSS and DaisyUI for the UI. Do not use JS for simple pages (eg. blogs or articles).
 - All the JS code will be written directly inside the page, using <script type="text/javascript">...</script>
-- You MUST use English, not Latin! (I repeat: do NOT write lorem ipsum!)
+- You MUST use English not Latin! I repeat: do NOT write lorem ipsum!
 - No need to write code comments, and try to make the code compact (short function names etc)
 - Use a central layout by wrapping everything in a \`<div class="flex flex-col justify-center">\`
-# HTML Code of the final app:
+# HTML Code
 ${prefix}`
 
   const options = {
