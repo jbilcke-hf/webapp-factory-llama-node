@@ -93,7 +93,7 @@ function app() {
     draft: new URLSearchParams(window.location.search).get('prompt') || '',
     size: 0,
     minPromptSize: 16, // if you change this, you will need to also change in src/index.mts
-    timeoutInSec: 10, // time before we determine something went wrong
+    timeoutInSec: 3 * 60, // time before we determine something went wrong
     state: 'stopped',
     lastTokenAt: + new Date(),
     init() {

@@ -126,10 +126,9 @@ Generate this webapp: ${req.query.prompt}.
 # Documentation
 ${daisy}
 # Guidelines
-- Do not write a tutorial! This is a web app!
 - Never repeat the instruction, instead directly write the final code within a script tag
 - Use a color scheme consistent with the brief and theme
-- You need to use Tailwind CSS and DaisyUI for the UI, pure vanilla JS and AlpineJS for the JS.
+- You need to use Tailwind CSS and DaisyUI for the UI. Do not use JS for simple pages (eg. blogs or articles).
 - All the JS code will be written directly inside the page, using <script type="text/javascript">...</script>
 - You MUST use English, not Latin! (I repeat: do NOT write lorem ipsum!)
 - No need to write code comments, and try to make the code compact (short function names etc)
