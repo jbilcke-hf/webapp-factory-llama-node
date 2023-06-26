@@ -43,12 +43,8 @@ RUN npm install
 # we need Rust
 RUN curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain nightly -y
 
-# SHELL ["/bin/bash", "-c"]
-
-ENV PNPM_HOME="/root/.local/share/pnpm"
-ENV PATH="${PATH}:${PNPM_HOME}"
-
-RUN npm install --global pnpm
+# need PNPM
+RUN npm install -g pnpm
 
 # we need PNP
 # RUN curl -fsSL https://get.pnpm.io/install.sh | bash -
