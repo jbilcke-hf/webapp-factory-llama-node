@@ -34,20 +34,6 @@ RUN git lfs install
 
 RUN python3 -m pip install --no-cache-dir --upgrade pip
 
-RUN useradd -m -u 1000 user
-USER user
-ENV HOME=/home/user \
-	PATH=/home/user/.local/bin:$PATH
-
-WORKDIR $HOME/app
-
-# prepare to install the Node app
-COPY --chown=user package*.json .
-
-RUN pnpm --version
-
-RUN pnpm install
-
 WORKDIR /tmp
 
 # ok! let's try to compile llama-node
@@ -70,7 +56,19 @@ RUN pnpm build:cuda
 
 ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:$HOME/.llama-node
 
+RUN useradd -m -u 1000 user
+USER user
+ENV HOME=/home/user \
+	PATH=/home/user/.local/bin:$PATH
+
 WORKDIR $HOME/app
+
+# prepare to install the Node app
+COPY --chown=user package*.json .
+
+RUN pnpm --version
+
+RUN npm install
 
 # ok.. should be good?
 
