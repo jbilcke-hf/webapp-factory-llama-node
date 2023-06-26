@@ -41,7 +41,7 @@ RUN npm install
 
 
 # we need Rust
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+RUN RUN curl https://sh.rustup.rs -sSf | bash -s -- -y
 
 # we need PNP
 RUN curl -fsSL https://get.pnpm.io/install.sh | sh -
