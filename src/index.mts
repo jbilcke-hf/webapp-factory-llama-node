@@ -132,7 +132,7 @@ ${daisy}
 - All the JS code will be written directly inside the page, using <script type="text/javascript">...</script>
 - You MUST use English not Latin! I repeat: do NOT write lorem ipsum!
 - No need to write code comments, and try to make the code compact (short function names etc)
-- Use a central layout by wrapping everything in a \`<div class="flex flex-col justify-center">\`
+- Use a central layout by wrapping everything in a \`<div class="flex flex-col items-center">\`
 # HTML Code
 ${prefix}`
 
